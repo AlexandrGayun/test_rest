@@ -1,0 +1,9 @@
+version: "2"
+sql:
+  - engine: "mysql"
+    queries: "business/storage/queries"
+    schema: "business/storage/schema"
+    gen:
+      go:
+        package: "storage"
+        out: "storage"
