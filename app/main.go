@@ -22,7 +22,7 @@ func main() {
 	if err := envconfig.Process("", &cfg); err != nil {
 		l.Fatal("can't read OS env", zap.Error(err))
 	}
-	db, err := sql.Open("mysql", "test_task_user:test_task_password@/test_task_database")
+	db, err := sql.Open("mysql", cfg.MysqlDsn)
 	if err != nil {
 		l.Fatal("can't establish database connection", zap.Error(err))
 	}
