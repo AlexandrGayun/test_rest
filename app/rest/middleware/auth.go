@@ -21,16 +21,18 @@ func (m *AuthChecker) Auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		key := strings.TrimSpace(c.GetHeader("Api-key"))
 		if len(key) != 0 {
-			if err := m.service.CheckAuth(key); err != nil {
+			id, err := m.service.CheckAuth(c.Request.Context(), key)
+			if err != nil || id == nil {
 				m.logger.Error("authorization failed", zap.String("api-key", key), zap.Error(err))
 				res := gin.H{"error": "access forbidden"}
 				c.JSON(http.StatusForbidden, res)
-				return
+				c.Abort()
 			}
-			c.Next()
 		} else {
 			res := gin.H{"error": "no api key provided"}
 			c.JSON(http.StatusForbidden, res)
+			c.Abort()
 		}
+		c.Next()
 	}
 }

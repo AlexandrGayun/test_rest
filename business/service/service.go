@@ -1,16 +1,23 @@
 package service
 
-import "go.uber.org/zap"
+import (
+	"context"
+	"go.uber.org/zap"
+	"test_task/business/domain"
+	"test_task/business/storage"
+)
 
 type Implementor interface {
-	CheckAuth(string) error
-	GetProfiles()
+	CheckAuth(context.Context, string) (*int64, error)
+	GetProfiles(context.Context) ([]domain.Profile, error)
+	GetProfileByUsername(context.Context, string) (*domain.Profile, error)
 }
 
 type Service struct {
-	logger *zap.Logger
+	logger  *zap.Logger
+	storage *storage.Storage
 }
 
-func New(logger *zap.Logger) *Service {
-	return &Service{logger: logger}
+func New(logger *zap.Logger, storage *storage.Storage) *Service {
+	return &Service{logger: logger, storage: storage}
 }

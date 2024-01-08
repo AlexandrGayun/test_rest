@@ -8,6 +8,7 @@ import (
 	"go.uber.org/zap"
 	"test_task/app/rest"
 	"test_task/business/service"
+	"test_task/business/storage"
 	"test_task/utils/config"
 	"test_task/utils/logger"
 )
@@ -31,7 +32,9 @@ func main() {
 	if err != nil {
 		l.Fatal("database connection credentials are not valid", zap.Error(err))
 	}
-	s := service.New(l)
+	queries := storage.New(db)
+	st := storage.NewStorage(queries, l)
+	s := service.New(l, st)
 	restServer := rest.New(l, s, cfg)
 	restServer.Start()
 }

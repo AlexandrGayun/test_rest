@@ -6,4 +6,4 @@ sql:
     gen:
       go:
         package: "storage"
-        out: "storage"
+        out: "business/storage"
