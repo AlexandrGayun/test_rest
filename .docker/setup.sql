@@ -1,11 +1,4 @@
-CREATE DATABASE IF NOT EXISTS test_task_database;
-
-GRANT CREATE, ALTER, INDEX, LOCK TABLES, REFERENCES, UPDATE, DELETE, DROP, SELECT, INSERT ON `test_task_database`.* TO 'test_task_user'@'%';
-
-FLUSH PRIVILEGES;
-
 # schema
-
 CREATE TABLE `auth` (
                         `id` bigint(20) NOT NULL AUTO_INCREMENT,
                         `api_key` varchar(32) NOT NULL,
